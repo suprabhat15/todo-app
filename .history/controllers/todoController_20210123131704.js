@@ -24,7 +24,6 @@ module.exports = function(app){
       console.log('suprabhat');
       next();
     }, function(req,res){
-     //getting data from mongodb and pass it to view
       Todo.find({},function(err,data){
         if(err) throw err;
         res.render('todo',{data});
@@ -32,22 +31,14 @@ module.exports = function(app){
     }); 
 
     app.post('/todo', urlencodedParser,function(req,res){
-      //get data from the view and add it to mongodb
-      var newTodo = Todo.find(req.body).save(function(err,data){
-        if(err) throw err;
+        data.push(req.body);
         res.json({data});
-      })
     });
  
     app.delete('/todo/:item', function(req,res){
-    // delete the requested item from mongodb
-    Todo.find({item:req.params.item.replace(/\-/g, " ")}).remove(function(err,data){
-      if(err) throw err;
-      res.json(data);
-    })
-    //   data = data.filter(function(todo){
-    //     return todo.item.replace(/ /g,'-') !== req.params.item;  //if false then removes
-    //  })
-    //  res.json({data});
+     data = data.filter(function(todo){
+        return todo.item.replace(/ /g,'-') !== req.params.item;  //if false then removes
+     })
+     res.json({data});
     });
 };

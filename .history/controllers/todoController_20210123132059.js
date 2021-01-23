@@ -40,14 +40,9 @@ module.exports = function(app){
     });
  
     app.delete('/todo/:item', function(req,res){
-    // delete the requested item from mongodb
-    Todo.find({item:req.params.item.replace(/\-/g, " ")}).remove(function(err,data){
-      if(err) throw err;
-      res.json(data);
-    })
-    //   data = data.filter(function(todo){
-    //     return todo.item.replace(/ /g,'-') !== req.params.item;  //if false then removes
-    //  })
-    //  res.json({data});
+     data = data.filter(function(todo){
+        return todo.item.replace(/ /g,'-') !== req.params.item;  //if false then removes
+     })
+     res.json({data});
     });
 };
